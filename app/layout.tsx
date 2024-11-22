@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { FONT_NOTOSANSKR } from "@/public/assets/fonts/index";
 import { Toaster } from "@/components/ui/toast/toaster";
-/** 폰트 */
-import { FONT_NOTOSANSKR } from "@/public/assets/fonts";
+/** 컴포넌트 */
+import { AsideSection } from "@/components/common";
 /** 스타일 */
-import "@public/styles/globals.css";
+import "@/public/styles/globals.css";
 import "@/public/styles/main.scss";
 
 export const metadata: Metadata = {
-  title: "BomTodo",
+  title: "TODO-BOARD 만들기",
   description: "Shadcn UI 및 Supabase를 활용한 나만의 TODO-BOARD 만들기",
 };
 
@@ -19,7 +20,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={FONT_NOTOSANSKR.className}>
-        {children}
+        <div className="page">
+          <AsideSection />
+          <main className="page__main">{children}</main>
+        </div>
         <Toaster />
       </body>
     </html>
