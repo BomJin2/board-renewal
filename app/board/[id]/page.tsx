@@ -4,7 +4,8 @@ import Image from "next/image";
 import { ChevronLeft } from "@/public/assets/icons";
 /** 스타일 */
 import styles from "./page.module.scss";
-import { Button, Progress } from "@/components/ui";
+import { Button, LabelDatePicker, Progress } from "@/components/ui";
+import { AlertPopup, BoardCard } from "@/components/common";
 
 function BoardUniquePage() {
   return (
