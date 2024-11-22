@@ -70,6 +70,7 @@ function AsideSection() {
         <ul className="flex flex-col">
           {todos.length === 0 ? (
             <li className=" min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
+
               <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
               등록된 Todos가 없습니다.
             </li>
@@ -84,6 +85,7 @@ function AsideSection() {
                 >
                   <div className={`${todos.id === Number(id) ? "bg-[#00F38D]" : "bg-neutral-400"} h-[6px] w-[6px] rounded-full `}></div>
                   <span className={`${todos.id !== Number(id) && "text-neutral-400"}`}>{todos.title ? todos.title : "등록된 제목이 업습니다."}</span>
+
                 </li>
               );
             })

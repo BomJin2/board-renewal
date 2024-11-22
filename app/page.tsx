@@ -27,9 +27,11 @@ function InitPage() {
       }
     } catch (e) {
       toast({
+
         title: " 에러임.",
         description: "다시 시도해보세요",
         variant: "destructive",
+
       });
     }
   };
