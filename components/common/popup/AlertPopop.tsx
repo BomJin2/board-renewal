@@ -11,12 +11,39 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui";
+import { toast, useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
+import { useParams, useRouter } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
 }
 
 function AlertPopup({ children }: Props) {
+  const { toast } = useToast();
+  const { id } = useParams();
+  const router = useRouter();
+
+  const handleDeleteTodos = async () => {
+    try {
+      const { status, error } = await supabase.from("todos").delete().eq("id", id);
+
+      if (status === 204) {
+        toast({
+          title: "삭제 되었습니다.",
+          description: "새로운 테이블을 만들어보세요",
+        });
+        router.push("/");
+      }
+    } catch (e) {
+      toast({
+        title: " 에러임.",
+        description: "다시 시도해보세요",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -30,7 +57,9 @@ function AlertPopup({ children }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-600 hover:bg-rose-600">삭제</AlertDialogAction>
+          <AlertDialogAction onClick={handleDeleteTodos} className="bg-red-600 hover:bg-rose-600">
+            삭제
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

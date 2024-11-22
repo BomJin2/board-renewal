@@ -27,8 +27,9 @@ function InitPage() {
       }
     } catch (e) {
       toast({
-        title: " 새로운 task가 생성되었습니다.",
-        description: "나만의 ToDo-Board를 생성해보세요!",
+        title: " 에러임.",
+        description: "다시 시도해보세요",
+        variant: "destructive",
       });
     }
   };
