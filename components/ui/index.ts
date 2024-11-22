@@ -51,3 +51,7 @@ export {
 } from "./toast/toast";
 
 export { SearchBar } from "./search-bar/search-bar";
+
+export { Calendar } from "./date-picker/calendar";
+
+export { LabelDatePicker } from "./date-picker/LabelDatePicker";
