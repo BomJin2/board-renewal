@@ -66,19 +66,26 @@ function AsideSection() {
       </Button>
       {/* TODO 목록 UI 하나 */}
       <div className="flex flex-col mt-4 gap-2">
-        <small className="text-sm font-medium leading-none text-[#A6A6A6]">9Diin의 TODO-BOARD</small>
+        <small className="text-sm font-medium leading-none text-[#A6A6A6]">Bomjin's TODO-BOARD</small>
         <ul className="flex flex-col">
           {todos.length === 0 ? (
-            <li className="bg-[#F5F5F5] min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
+            <li className=" min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
+
               <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
               등록된 Todos가 없습니다.
             </li>
           ) : (
             todos.map((todos: Todos) => {
               return (
-                <li key={todos.id} className="bg-[#F5F5F5] min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer">
-                  <div className="h-[6px] w-[6px] rounded-full bg-[#00F38D]"></div>
-                  {todos.title ? todos.title : "등록된 제목이 업습니다."}
+                <li
+                  key={todos.id}
+                  className={`${
+                    todos.id === Number(id) ? "bg-[#F5F5F5]" : ""
+                  }  min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer`}
+                >
+                  <div className={`${todos.id === Number(id) ? "bg-[#00F38D]" : "bg-neutral-400"} h-[6px] w-[6px] rounded-full `}></div>
+                  <span className={`${todos.id !== Number(id) && "text-neutral-400"}`}>{todos.title ? todos.title : "등록된 제목이 업습니다."}</span>
+
                 </li>
               );
             })
