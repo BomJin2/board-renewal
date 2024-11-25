@@ -2,66 +2,30 @@
 
 /** 컴포넌트 */
 import { Button, SearchBar } from "@/components/ui";
+import { useGetTodos, useCreateTodos } from "@/hooks/api";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { Todos } from "@/types";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+// import { useEffect} from "react";
 
 function AsideSection() {
-  const { toast } = useToast();
-  const router = useRouter();
   const { id } = useParams();
-  const [todos, setTodos] = useState<Todos[]>([]);
-
-  const hadleCreateTask = async () => {
-    try {
-      const { data, status, error } = await supabase
-        .from("todos")
-        .insert([{ title: null, start_date: null, end_date: null, boards: [] }])
-        .select();
-
-      if (status === 201 && data !== null) {
-        toast({
-          title: " 새로운 task가 생성되었습니다.",
-          description: "나만의 ToDo-Board를 생성해보세요!",
-        });
-        getTodos();
-        router.push(`/board/${data[0].id}`);
-      }
-    } catch (e) {
-      toast({
-        title: " 에러가 발생했습니다.",
-        description: "나만의 ToDo-Board를 생성해보세요!",
-      });
-    }
-  };
-
-  /** 우리가 생성한 todos 데이터 전체 조회 */
-  const getTodos = async () => {
-    try {
-      let { data, status, error } = await supabase.from("todos").select("*");
-
-      if (data !== null && status === 200) setTodos(data);
-    } catch (e) {
-      console.log(e);
-      toast({
-        title: " 에러가 발생했습니다.",
-        description: "나만의 ToDo-Board를 생성해보세요!",
-      });
-    }
-  };
+  const { todos, getTodos } = useGetTodos();
+  const handleCreateTodos = useCreateTodos();
+  const router = useRouter();
 
   useEffect(() => {
     getTodos();
-  }, []);
+  }, [id]);
 
   return (
     <aside className="page__aside">
       {/* 검색창 UI */}
       <SearchBar placeholder="검색어를 입력하세요." />
       {/* Add New Page 버튼 UI */}
-      <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={hadleCreateTask}>
+      <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={handleCreateTodos}>
         Add New Page
       </Button>
       {/* TODO 목록 UI 하나 */}
@@ -81,6 +45,7 @@ function AsideSection() {
                   className={`${
                     todos.id === Number(id) ? "bg-[#F5F5F5]" : ""
                   }  min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer`}
+                  onClick={() => router.push(`/board/${todos.id}`)}
                 >
                   <div className={`${todos.id === Number(id) ? "bg-[#00F38D]" : "bg-neutral-400"} h-[6px] w-[6px] rounded-full `}></div>
                   <span className={`${todos.id !== Number(id) && "text-neutral-400"}`}>{todos.title ? todos.title : "등록된 제목이 업습니다."}</span>
