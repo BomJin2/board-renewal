@@ -3,10 +3,12 @@
 import { Button } from "@/components/ui";
 import { useCreateTodos } from "@/hooks/api";
 
+
 import { useEffect } from "react";
 
 function InitPage() {
   const handleCreateTodos = useCreateTodos();
+
 
   useEffect(() => {});
 
@@ -20,6 +22,7 @@ function InitPage() {
         </div>
       </div>
       <Button className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]" onClick={handleCreateTodos}>
+
         Add New Page
       </Button>
     </div>

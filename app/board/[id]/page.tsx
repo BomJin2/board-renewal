@@ -11,6 +11,7 @@ import { AlertPopup, BoardCard } from "@/components/common";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+
 import { Board, Todos } from "@/types";
 import { nanoid } from "nanoid";
 import { toast } from "@/hooks/use-toast";
@@ -19,7 +20,7 @@ function BoardUniquePage() {
   const { id } = useParams();
   const [todos, setTodos] = useState<Todos>();
   const [boards, setBoards] = useState<Board[]>(todos?.boards || []);
-  const router = useRouter();
+
 
   /** 특정 ID값에 따른  */
   const getTodos = async () => {
