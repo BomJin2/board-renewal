@@ -11,6 +11,7 @@ export interface Board {
   title: string;
   startDate: Date | null;
   endDate: Date | null;
+
   contnet: string;
   isCompleted: boolean;
 }

@@ -7,3 +7,4 @@ export const TodosAtom = atom<Todos[]>([]);
 
 /** 개별(단일) task 상태 */
 export const TodoAtom = atom<Todos | null>(null);
+

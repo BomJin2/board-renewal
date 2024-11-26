@@ -45,6 +45,7 @@ function LoginPage() {
       console.error("API 호출 중 오류 발생:", e);
     }
   };
+
   return (
     <div className="page">
       <div className="page__container">
@@ -111,6 +112,12 @@ function LoginPage() {
           </CardFooter>
         </Card>
       </div>
+
+      <Button className="text-[#E79057] bg-transparent border border-[#E79057] hover:bg-[#FFF9F5] w-[180px]" onClick={handleCreateTodos}>
+
+        Add New Page
+      </Button>
+
     </div>
   );
 }

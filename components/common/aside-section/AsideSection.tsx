@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { NavUser } from "./NavUser";
 
+
 function AsideSection() {
   const { id } = useParams();
   const { todos, getTodos } = useGetTodos();
@@ -22,6 +23,7 @@ function AsideSection() {
     avatar: "/assets/images/profile.gif",
   };
 
+
   useEffect(() => {
     getTodos();
   }, [id]);
@@ -32,12 +34,14 @@ function AsideSection() {
       <SearchBar placeholder="검색어를 입력하세요." />
       {/* Add New Page 버튼 UI */}
       <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={handleCreateTodos}>
+
         Add New Page
       </Button>
       {/* TODO 목록 UI 하나 */}
       <div className="flex flex-col mt-4 gap-2">
         <small className="text-sm font-medium leading-none text-[#A6A6A6]">Bomjin's TODO-BOARD</small>
         <ul className="flex flex-col">
+
           {todos.length ? (
             todos.map((todo: Todos) => {
               return (
@@ -58,6 +62,7 @@ function AsideSection() {
               <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
               등록된 Todos가 없습니다.
             </li>
+
           )}
         </ul>
       </div>
