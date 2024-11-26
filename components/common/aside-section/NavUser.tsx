@@ -15,24 +15,48 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui";
 import { User } from "@/types";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   user: User | undefined;
 }
 
 export function NavUser({ user }: Props) {
+  const router = useRouter();
+  const supabase = createClient();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    toast({
+      title: "로그아웃을 완료하였습니다.",
+      description: "Todo 관리 앱을 사용해주셔서 감사합니다.",
+    });
+    router.push("/");
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "에러가 발생했습니다.",
+        description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={"outline"} className="py-6 px-3 flex items-center justify-evenly">
           <Avatar className="h-8 w-8 rounded-lg">
-            <AvatarImage src={user?.imgUrl} alt={""} />;<AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            <AvatarImage src={user?.imgUrl} alt={""} />
+            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
           </Avatar>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">"김봄진"</span>
             <span className="truncate text-xs">{user?.email}</span>
-
           </div>
           <ChevronsUpDown className="ml-auto size-4" />
         </Button>
@@ -47,7 +71,6 @@ export function NavUser({ user }: Props) {
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-semibold">김봄진</span>
               <span className="truncate text-xs">{user?.email}</span>
-
             </div>
           </div>
         </DropdownMenuLabel>
@@ -74,7 +97,7 @@ export function NavUser({ user }: Props) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut />
           Log out
         </DropdownMenuItem>
