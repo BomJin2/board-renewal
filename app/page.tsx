@@ -1,12 +1,32 @@
 "use client";
 
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+} from "@/components/ui";
+import useEmailCheck from "@/hooks/use-email";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { userAtom } from "@/stores/atoms";
 import { useAtom } from "jotai";
 
-import { Eye } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,18 +37,46 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useAtom(userAtom);
+  const { checkEmail } = useEmailCheck();
+  const [changeEmail, setChangeEmail] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const togglePassword = () => setShowPassword((prevState) => !prevState);
+  const supabase = createClient();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      toast({
+        variant: "destructive",
+        title: "기입되지 않은 데이터(값)가 있습니다..",
+        description: "이메일과 비밀번호는 필수 값입니다.",
+      });
+      return;
+    }
+    if (!checkEmail(email)) {
+      toast({
+        variant: "destructive",
+        title: "올바르지 않은 이메일 양식입니다.",
+        description: "올바른 이메일 양식을 작성해주세요!",
+      });
+      return;
+    }
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
 
-      if (data) {
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "에러가 발생했습니다.",
+          description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
+        });
+      } else if (data && !error) {
         toast({
           title: "로그인에 성공하였습니다.",
-          description: "잘해보쇼",
+          description: "Todo-List를 작성해보세요!",
         });
         router.push("/board");
         setUser({
@@ -36,14 +84,6 @@ function LoginPage() {
           email: data.user?.email || "",
           phone: data.user?.phone || "",
           imgUrl: "assets/images/profile.gif",
-        });
-      }
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "에러가 발생했습니다.",
-          description: `Supabase 오류: ${error.message || "알 수 없는 오류"}`,
         });
       }
     } catch (e) {
@@ -54,6 +94,38 @@ function LoginPage() {
       });
       console.error("API 호출 중 오류 발생:", e);
     }
+  };
+
+  const handleChangePassword = async () => {
+    if (!checkEmail(changeEmail)) {
+      toast({
+        variant: "destructive",
+        title: "올바르지 않은 이메일 양식입니다.",
+        description: "올바른 이메일 양식을 작성해주세요!",
+      });
+      return;
+    }
+
+    try {
+      await supabase.auth.resetPasswordForEmail(changeEmail, {
+        redirectTo: "http://localhost:3000/update-password",
+      });
+
+      if (changeEmail) {
+        toast({
+          title: "비밀번호를 변경해주세요",
+          description: "메일이 전송되었습니다. 원하시는 비밀번호로 변경하세요",
+        });
+      }
+
+      if (changeEmail.length === 0 || null) {
+        toast({
+          variant: "destructive",
+          title: "이메일을 입력하세요",
+          description: "가입하셨던 이메일을 입력해주세요",
+        });
+      }
+    } catch (e) {}
   };
 
   return (
@@ -82,19 +154,47 @@ function LoginPage() {
             <div className="relative grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">비밀번호</Label>
-                <Link href={"#"} className="ml-auto inline-block text-sm underline">
-                  비밀번호를 잊으셨나요?
-                </Link>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Link href={"#"} className="ml-auto inline-block text-sm underline">
+                      비밀번호를 잊으셨나요?
+                    </Link>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>비밀번호를 초기화 할 이메일 주소를 입력해주세요</AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <div className="grid gap-2">
+                      <Label htmlFor="email">이메일</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="이메일을 입력하세요."
+                        value={changeEmail}
+                        onChange={(e) => setChangeEmail(e.target.value)}
+                      />
+                    </div>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>취소</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleChangePassword}>확인</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="비밀번호를 입력하세요."
+                required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
               />
-              <Button size={"icon"} className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent">
-                <Eye className="h-5 w-5 text-muted-foreground" />
+              <Button
+                size={"icon"}
+                className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent"
+                onClick={togglePassword}
+              >
+                {showPassword ? <EyeOff className="h-5 w-5 text-muted-foreground" /> : <Eye className="h-5 w-5 text-muted-foreground" />}
               </Button>
             </div>
           </CardContent>
