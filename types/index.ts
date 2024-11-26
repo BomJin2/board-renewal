@@ -14,3 +14,10 @@ export interface Board {
   contnet: string;
   isCompleted: boolean;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  phone: string;
+  imgUrl: string;
+}
