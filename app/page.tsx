@@ -84,6 +84,7 @@ function LoginPage() {
           email: data.user?.email || "",
           phone: data.user?.phone || "",
           imgUrl: "assets/images/profile.gif",
+
         });
       }
     } catch (e) {
