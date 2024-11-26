@@ -3,6 +3,9 @@
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
+import { userAtom } from "@/stores/atoms";
+import { useAtom } from "jotai";
+
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +16,7 @@ function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useAtom(userAtom);
 
   const handleLogin = async () => {
     try {
@@ -27,6 +31,12 @@ function LoginPage() {
           description: "잘해보쇼",
         });
         router.push("/board");
+        setUser({
+          id: data.user?.id || "",
+          email: data.user?.email || "",
+          phone: data.user?.phone || "",
+          imgUrl: "assets/images/profile.jpg",
+        });
       }
 
       if (error) {

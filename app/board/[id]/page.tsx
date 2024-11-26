@@ -103,8 +103,6 @@ function BoardUniquePage() {
     }
   }, [todo]);
 
-
-
   return (
     <>
       <div className={styles.header}>

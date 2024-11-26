@@ -11,7 +11,14 @@ export interface Board {
   title: string;
   startDate: Date | null;
   endDate: Date | null;
-
   contnet: string;
   isCompleted: boolean;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  phone: string;
+  imgUrl: string;
+}
+

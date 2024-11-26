@@ -7,15 +7,20 @@ import { Todos } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { NavUser } from "./NavUser";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/stores/atoms";
 
 
 function AsideSection() {
   const { id } = useParams();
   const { todos, getTodos } = useGetTodos();
 
+  const user = useAtomValue(userAtom);
+
   const handleCreateTodos = useCreateTodos();
 
   const router = useRouter();
+
 
   const userData = {
     name: "shadcn",
@@ -62,11 +67,11 @@ function AsideSection() {
               <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
               등록된 Todos가 없습니다.
             </li>
-
           )}
         </ul>
       </div>
-      <NavUser user={userData} />
+      <NavUser user={user} />
+
     </aside>
   );
 }
