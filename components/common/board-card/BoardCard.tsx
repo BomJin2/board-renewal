@@ -3,9 +3,13 @@
 /** UI 컴포넌트 */
 import { MarkdownEditorDialog } from "@/components/common";
 import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/components/ui";
+import { useDeleteBoard } from "@/hooks/api";
 import { ChevronUp } from "@/public/assets/icons";
+import { useParams } from "next/navigation";
 
 function BoardCard() {
+  const { id } = useParams();
+
   return (
     <Card className="w-full flex flex-col items-center p-5">
       {/* 게시물 카드 제목 영역*/}
