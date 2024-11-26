@@ -24,7 +24,11 @@ function useCreateTodos() {
         .select();
 
       if (data && status === 201) {
-        setTodos((pre) => [...pre, data[0]]);
+        setTodos((prevTasks) => [...prevTasks, data[0]]);
+        toast({
+          title: "새로운 Todo가 생성되었습니다.",
+          description: "나만의 TODO-BOARD를 생성해보세요!",
+        });
         router.push(`/board/${data[0].id}`);
       }
       if (error) {

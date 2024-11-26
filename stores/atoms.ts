@@ -6,4 +6,4 @@ import { Todos } from "@/types";
 export const TodosAtom = atom<Todos[]>([]);
 
 /** 개별(단일) task 상태 */
-export const Todostom = atom<Todos | null>(null);
+export const TodoAtom = atom<Todos | null>(null);

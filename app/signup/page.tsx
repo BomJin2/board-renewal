@@ -2,33 +2,34 @@
 
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-function LoginPage() {
+function SignupPage() {
+  const supabase = createClient();
   const { toast } = useToast();
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleSignup = async () => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
       });
 
       if (data) {
         toast({
-          title: "로그인에 성공하였습니다.",
-          description: "잘해보쇼",
+          title: "회원가입을 성공하였습니다.",
+          description: "로그인 페이지로 이동하여 로그인을 진행해주세요",
         });
-        router.push("/board");
+        router.push("/");
       }
 
+      console.log(data);
       if (error) {
         toast({
           variant: "destructive",
@@ -45,6 +46,8 @@ function LoginPage() {
       console.error("API 호출 중 오류 발생:", e);
     }
   };
+
+  const router = useRouter();
   return (
     <div className="page">
       <div className="page__container">
@@ -58,31 +61,35 @@ function LoginPage() {
             <p className="text-sm text-muted-foreground">서비스를 이용하려면 로그인을 진행해주세요.</p>
           </div>
         </div>
+        <form action="submit"></form>
+
         <Card className="w-[400px]">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">로그인</CardTitle>
-            <CardDescription>로그인을 위한 정보를 입력해주세요.</CardDescription>
+            <CardTitle className="text-2xl">회원가입</CardTitle>
+            <CardDescription>계정을 생성하기 위해 아래 정보를 입력해주세요.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
+            <div className="flex flex-col w-full gap-2">
+              <div className="grid gap-2">
+                <Label htmlFor="phone_number">휴대폰 번호</Label>
+                <Input id="phone_number" placeholder="휴대폰 번호를 입력하세요." />
+              </div>
+            </div>
+
             <div className="grid gap-2">
               <Label htmlFor="email">이메일</Label>
-              <Input id="email" type="email" value={email} placeholder="이메일을 입력하세요." onChange={(e) => setEmail(e.target.value)} />
+              <Input id="email" type="email" value={email} placeholder="이메일을 입력하세요." required onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="relative grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">비밀번호</Label>
-                <Link href={"#"} className="ml-auto inline-block text-sm underline">
-                  비밀번호를 잊으셨나요?
-                </Link>
-              </div>
+              <Label htmlFor="password">비밀번호</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="비밀번호를 입력하세요."
                 value={password}
+                placeholder="비밀번호를 입력하세요."
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button size={"icon"} className="absolute top-[38px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent">
+              <Button size={"icon"} className="absolute top-[32px] right-2 -translate-y-1/4 bg-transparent hover:bg-transparent">
                 <Eye className="h-5 w-5 text-muted-foreground" />
               </Button>
             </div>
@@ -92,20 +99,26 @@ function LoginPage() {
               <span className="w-full border-t"></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-background px-2 text-muted-foreground">간편 회원가입을 원하시면 이전 버튼을 누르세요</span>
             </div>
           </div>
           <CardFooter className="flex flex-col mt-6">
-            <Button
-              className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
-              onClick={handleLogin}
-            >
-              로그인
-            </Button>
-            <div className="mt-4 text-center text-sm">
-              계정이 없으신가요?
-              <Link href={"/signup"} className="underline text-sm ml-1">
+            <div className="grid grid-cols-2 gap-2 w-full">
+              <Button variant={"outline"} className="w-full" onClick={() => router.push("/")}>
+                이전
+              </Button>
+              <Button
+                className="w-full text-white bg-[#E79057] hover:bg-[#E26F24] hover:ring-1 hover:ring-[#E26F24] hover:ring-offset-1 active:bg-[#D5753D] hover:shadow-lg"
+                onClick={handleSignup}
+              >
                 회원가입
+              </Button>
+            </div>
+
+            <div className="mt-4 text-center text-sm">
+              이미 계정이 있으신가요?
+              <Link href={"/"} className="underline text-sm ml-1">
+                로그인
               </Link>
             </div>
           </CardFooter>
@@ -115,4 +128,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;
