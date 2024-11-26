@@ -35,7 +35,7 @@ function LoginPage() {
           id: data.user?.id || "",
           email: data.user?.email || "",
           phone: data.user?.phone || "",
-          imgUrl: "assets/images/profile.jpg",
+          imgUrl: "assets/images/profile.gif",
         });
       }
 

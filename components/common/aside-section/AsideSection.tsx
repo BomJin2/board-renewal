@@ -10,7 +10,6 @@ import { NavUser } from "./NavUser";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/stores/atoms";
 
-
 function AsideSection() {
   const { id } = useParams();
   const { todos, getTodos } = useGetTodos();
@@ -20,14 +19,6 @@ function AsideSection() {
   const handleCreateTodos = useCreateTodos();
 
   const router = useRouter();
-
-
-  const userData = {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/assets/images/profile.gif",
-  };
-
 
   useEffect(() => {
     getTodos();
@@ -39,14 +30,12 @@ function AsideSection() {
       <SearchBar placeholder="검색어를 입력하세요." />
       {/* Add New Page 버튼 UI */}
       <Button className="text-[#E79057] bg-white border border-[#E79057] hover:bg-[#FFF9F5]" onClick={handleCreateTodos}>
-
         Add New Page
       </Button>
       {/* TODO 목록 UI 하나 */}
       <div className="flex flex-col mt-4 gap-2">
         <small className="text-sm font-medium leading-none text-[#A6A6A6]">Bomjin's TODO-BOARD</small>
         <ul className="flex flex-col">
-
           {todos.length ? (
             todos.map((todo: Todos) => {
               return (
@@ -71,7 +60,6 @@ function AsideSection() {
         </ul>
       </div>
       <NavUser user={user} />
-
     </aside>
   );
 }
