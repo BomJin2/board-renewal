@@ -21,3 +21,4 @@ export interface User {
   phone: string;
   imgUrl: string;
 }
+

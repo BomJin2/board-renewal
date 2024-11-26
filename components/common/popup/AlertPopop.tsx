@@ -14,6 +14,7 @@ import {
 import { useDeleteTodos } from "@/hooks/api";
 import { useParams } from "next/navigation";
 
+
 interface Props {
   children: React.ReactNode;
 }
@@ -21,6 +22,7 @@ interface Props {
 function AlertPopup({ children }: Props) {
   const { id } = useParams();
   const handleDeleteTodos = useDeleteTodos();
+
 
   return (
     <AlertDialog>
@@ -36,6 +38,7 @@ function AlertPopup({ children }: Props) {
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
           <AlertDialogAction onClick={() => handleDeleteTodos(Number(id))} className="bg-red-600 hover:bg-rose-600">
+
             삭제
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -21,6 +21,7 @@ interface Props {
 }
 
 export function NavUser({ user }: Props) {
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,6 +32,7 @@ export function NavUser({ user }: Props) {
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">"김봄진"</span>
             <span className="truncate text-xs">{user?.email}</span>
+
           </div>
           <ChevronsUpDown className="ml-auto size-4" />
         </Button>
@@ -45,6 +47,7 @@ export function NavUser({ user }: Props) {
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-semibold">김봄진</span>
               <span className="truncate text-xs">{user?.email}</span>
+
             </div>
           </div>
         </DropdownMenuLabel>

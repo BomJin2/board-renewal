@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { userAtom } from "@/stores/atoms";
 import { useAtom } from "jotai";
+
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -54,6 +55,7 @@ function LoginPage() {
       console.error("API 호출 중 오류 발생:", e);
     }
   };
+
   return (
     <div className="page">
       <div className="page__container">

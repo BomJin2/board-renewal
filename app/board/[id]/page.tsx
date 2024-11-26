@@ -41,6 +41,7 @@ function BoardUniquePage() {
       contnet: "",
       isCompleted: false,
     };
+
     const newBoards = [...boards, newBoard];
     setBoards(newBoards);
     createBoard(Number(id), "boards", newBoards);
@@ -149,6 +150,7 @@ function BoardUniquePage() {
       </div>
       <div className={styles.body}>
         {boards.length === 0 ? (
+
           <div className={styles.body__noData}>
             {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 없을 경우 */}
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">There is no board yet.</h3>
@@ -162,6 +164,7 @@ function BoardUniquePage() {
             {/* Add New Board 버튼 클릭으로 인한 Board 데이터가 있을 경우 */}
             {boards.map((board: Board) => {
               return <BoardCard key={board.id} board={board} />;
+
             })}
           </div>
         )}
