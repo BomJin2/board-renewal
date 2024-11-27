@@ -37,6 +37,7 @@ function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
   const [user, setUser] = useAtom(userAtom);
   const { checkEmail } = useEmailCheck();
   const [changeEmail, setChangeEmail] = useState("");
@@ -69,7 +70,7 @@ function LoginPage() {
         email: email,
         password: password,
       });
-
+      console.log(data);
       if (error) {
         toast({
           variant: "destructive",
@@ -87,6 +88,7 @@ function LoginPage() {
           id: data.user?.id || "",
           email: data.user?.email || "",
           phone: data.user?.phone || "",
+          userName: data.user?.user_metadata.user_name || "",
           imgUrl: "assets/images/profile.gif",
         };
         document.cookie = `user=${JSON.stringify(userData)} path =/ max-age=3600`; // 1시간 동안 유효

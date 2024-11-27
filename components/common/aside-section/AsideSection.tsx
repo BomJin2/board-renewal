@@ -20,6 +20,7 @@ function AsideSection() {
 
   const router = useRouter();
 
+  console.log(user);
   useEffect(() => {
     getTodos();
   }, [id]);
@@ -33,33 +34,35 @@ function AsideSection() {
         Add New Page
       </Button>
       {/* TODO 목록 UI 하나 */}
-      <div className="flex flex-col mt-4 gap-2">
-        <small className="text-sm font-medium leading-none text-[#A6A6A6]">Bomjin's TODO-BOARD</small>
-        <ul className="flex flex-col">
-          {todos.length ? (
-            todos.map((todo: Todos) => {
-              return (
-                <li
-                  key={todo.id}
-                  className={`${
-                    todo.id === Number(id) ? "bg-[#F5F5F5]" : ""
-                  }  min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer`}
-                  onClick={() => router.push(`/board/${todo.id}`)}
-                >
-                  <div className={`${todo.id === Number(id) ? "bg-[#00F38D]" : "bg-neutral-400"} h-[6px] w-[6px] rounded-full `}></div>
-                  <span className={`${todo.id !== Number(id) && "text-neutral-400"}`}>{todo.title ? todo.title : "등록된 제목이 업습니다."}</span>
-                </li>
-              );
-            })
-          ) : (
-            <li className=" min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
-              <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
-              등록된 Todos가 없습니다.
-            </li>
-          )}
-        </ul>
+      <div className="flex flex-col h-full justify-between">
+        <div className="flex flex-col mt-4 gap-2 ">
+          <small className="text-sm font-medium leading-none text-[#A6A6A6]">{`${user?.userName} TODO-BOARD`} </small>
+          <ul className="flex flex-col">
+            {todos.length ? (
+              todos.map((todo: Todos) => {
+                return (
+                  <li
+                    key={todo.id}
+                    className={`${
+                      todo.id === Number(id) ? "bg-[#F5F5F5]" : ""
+                    }  min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm cursor-pointer`}
+                    onClick={() => router.push(`/board/${todo.id}`)}
+                  >
+                    <div className={`${todo.id === Number(id) ? "bg-[#00F38D]" : "bg-neutral-400"} h-[6px] w-[6px] rounded-full `}></div>
+                    <span className={`${todo.id !== Number(id) && "text-neutral-400"}`}>{todo.title ? todo.title : "등록된 제목이 업습니다."}</span>
+                  </li>
+                );
+              })
+            ) : (
+              <li className=" min-h-9 flex items-center gap-2 py-2 px-[10px] rounded-sm text-sm text-neutral-400">
+                <div className="h-[6px] w-[6px] rounded-full bg-neutral-400"></div>
+                등록된 Todos가 없습니다.
+              </li>
+            )}
+          </ul>
+        </div>
+        <NavUser user={user} />
       </div>
-      <NavUser user={user} />
     </aside>
   );
 }

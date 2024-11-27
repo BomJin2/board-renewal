@@ -14,16 +14,17 @@ function SignupPage() {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
   const { checkEmail } = useEmailCheck();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const togglePassword = () => setShowPassword((prevState) => !prevState);
 
   const handleSignup = async () => {
-    if (!email || !password) {
+    if (!email || !password || !userName) {
       toast({
         variant: "destructive",
         title: "기입되지 않은 데이터(값)가 있습니다..",
-        description: "이메일과 비밀번호는 필수 값입니다.",
+        description: "이메일과 비밀번호, 닉네임는 필수 값입니다.",
       });
       return;
     }
@@ -49,6 +50,11 @@ function SignupPage() {
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        options: {
+          data: {
+            user_name: userName,
+          },
+        },
       });
 
       console.log(data);
@@ -126,6 +132,17 @@ function SignupPage() {
               >
                 {showPassword ? <EyeOff className="h-5 w-5 text-muted-foreground" /> : <Eye className="h-5 w-5 text-muted-foreground" />}
               </Button>
+            </div>
+            <div className="relative grid gap-2">
+              <Label htmlFor="userName">닉네임</Label>
+              <Input
+                id="userName"
+                type={"text"}
+                placeholder="닉네임을 입력하세요."
+                required
+                value={userName}
+                onChange={(event) => setUserName(event.target.value)}
+              />
             </div>
           </CardContent>
           <div className="relative">
