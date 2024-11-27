@@ -18,6 +18,7 @@ import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { cookies } from "next/headers";
 
 interface Props {
   user: User | undefined;
