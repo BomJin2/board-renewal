@@ -47,6 +47,7 @@ function LoginPage() {
 
   useEffect(() => {}, []);
 
+
   const handleLogin = async () => {
     if (!email || !password) {
       toast({
@@ -70,7 +71,7 @@ function LoginPage() {
         email: email,
         password: password,
       });
-      console.log(data);
+
       if (error) {
         toast({
           variant: "destructive",
@@ -95,6 +96,7 @@ function LoginPage() {
 
         setUser(userData);
         router.push("/board");
+
       }
     } catch (e) {
       toast({

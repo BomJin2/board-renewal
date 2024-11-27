@@ -19,7 +19,7 @@ import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { cookies } from "next/headers";
+
 
 interface Props {
   user: User | null;
@@ -65,10 +65,10 @@ export function NavUser({ user }: Props) {
   };
 
   return (
-    <AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={"outline"} className="py-6 px-3 flex items-center justify-evenly">
+
             <Avatar className="h-8 w-8 rounded-lg">
               <AvatarImage src={user?.imgUrl} alt={""} />
               <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -107,6 +107,6 @@ export function NavUser({ user }: Props) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </AlertDialog>
+
   );
 }

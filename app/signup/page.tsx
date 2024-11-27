@@ -15,6 +15,7 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
+
   const { checkEmail } = useEmailCheck();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const togglePassword = () => setShowPassword((prevState) => !prevState);
@@ -25,6 +26,7 @@ function SignupPage() {
         variant: "destructive",
         title: "기입되지 않은 데이터(값)가 있습니다..",
         description: "이메일과 비밀번호, 닉네임는 필수 값입니다.",
+
       });
       return;
     }

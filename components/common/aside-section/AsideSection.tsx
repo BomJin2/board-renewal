@@ -20,7 +20,7 @@ function AsideSection() {
 
   const router = useRouter();
 
-  console.log(user);
+
   useEffect(() => {
     getTodos();
   }, [id]);
@@ -63,6 +63,7 @@ function AsideSection() {
         </div>
         <NavUser user={user} />
       </div>
+
     </aside>
   );
 }
