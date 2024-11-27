@@ -46,6 +46,7 @@ function LoginPage() {
 
   useEffect(() => {}, []);
 
+
   const handleLogin = async () => {
     if (!email || !password) {
       toast({
@@ -88,11 +89,13 @@ function LoginPage() {
           email: data.user?.email || "",
           phone: data.user?.phone || "",
           imgUrl: "assets/images/profile.gif",
+
         };
         document.cookie = `user=${JSON.stringify(userData)} path =/ max-age=3600`; // 1시간 동안 유효
 
         setUser(userData);
         router.push("/board");
+
       }
     } catch (e) {
       toast({
