@@ -2,13 +2,12 @@
 
 import { Button } from "@/components/ui";
 import { useCreateTodos } from "@/hooks/api";
+import { useRouter } from "next/navigation";
 
 import { useEffect } from "react";
 
 function BoardInitPage() {
   const handleCreateTodos = useCreateTodos();
-
-  useEffect(() => {});
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">

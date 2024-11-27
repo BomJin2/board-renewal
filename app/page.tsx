@@ -29,7 +29,8 @@ import { useAtom } from "jotai";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import path from "path";
+import { useEffect, useState } from "react";
 
 function LoginPage() {
   const { toast } = useToast();
@@ -42,6 +43,9 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const togglePassword = () => setShowPassword((prevState) => !prevState);
   const supabase = createClient();
+
+  useEffect(() => {}, []);
+
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -78,14 +82,20 @@ function LoginPage() {
           title: "로그인에 성공하였습니다.",
           description: "Todo-List를 작성해보세요!",
         });
-        router.push("/board");
-        setUser({
+
+        /** 쿠키에 저장할 user 데이터 */
+        const userData = {
           id: data.user?.id || "",
           email: data.user?.email || "",
           phone: data.user?.phone || "",
           imgUrl: "assets/images/profile.gif",
 
-        });
+        };
+        document.cookie = `user=${JSON.stringify(userData)} path =/ max-age=3600`; // 1시간 동안 유효
+
+        setUser(userData);
+        router.push("/board");
+
       }
     } catch (e) {
       toast({
